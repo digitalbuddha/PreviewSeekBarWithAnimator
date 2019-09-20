@@ -42,9 +42,9 @@ import com.google.android.exoplayer2.util.Util;
 
 public class ExoPlayerManager implements PreviewLoader {
 
+    public SimpleExoPlayer player;
     private ExoPlayerMediaSourceBuilder mediaSourceBuilder;
     private SimpleExoPlayerView playerView;
-    private SimpleExoPlayer player;
     private PreviewTimeBar previewTimeBar;
     private String thumbnailsUrl;
     private ImageView imageView;
@@ -65,6 +65,21 @@ public class ExoPlayerManager implements PreviewLoader {
         this.previewTimeBar = previewTimeBar;
         this.mediaSourceBuilder = new ExoPlayerMediaSourceBuilder(playerView.getContext());
         this.thumbnailsUrl = thumbnailsUrl;
+    }
+
+    private boolean isPlaying() {
+        return player != null
+                && player.getPlaybackState() != Player.STATE_ENDED
+                && player.getPlaybackState() != Player.STATE_IDLE
+                && player.getPlayWhenReady();
+    }
+
+    public void togglePlayPause() {
+        if (isPlaying())
+            player.setPlayWhenReady(false);
+        else
+            player.setPlayWhenReady(true);
+
     }
 
     public void play(Uri uri) {

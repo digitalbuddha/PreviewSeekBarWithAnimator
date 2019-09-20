@@ -30,6 +30,7 @@ import com.github.rubensousa.previewseekbar.PreviewView;
 import com.github.rubensousa.previewseekbar.exoplayer.PreviewTimeBar;
 import com.github.rubensousa.previewseekbar.sample.exoplayer.ExoPlayerManager;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.ohoussein.playpause.PlayPauseView;
 
 
 public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener,
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     private static final int PICK_FILE_REQUEST_CODE = 2;
 
     private ExoPlayerManager exoPlayerManager;
+
     private PreviewTimeBar previewTimeBar;
 
     @Override
@@ -46,6 +48,16 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         setContentView(R.layout.activity_main);
 
         SimpleExoPlayerView playerView = findViewById(R.id.player_view);
+        PlayPauseView playPauseView = findViewById(R.id.play_pause_view);
+        playPauseView.toggle();
+        playPauseView
+                .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PlayPauseView)v).toggle();
+                exoPlayerManager.togglePlayPause();
+            }
+        });;
         previewTimeBar = playerView.findViewById(R.id.exo_progress);
         previewTimeBar.addOnPreviewChangeListener(this);
         exoPlayerManager = new ExoPlayerManager(playerView, previewTimeBar,
